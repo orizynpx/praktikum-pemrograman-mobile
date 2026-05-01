@@ -51,7 +51,7 @@ fun SettingsScreen(
         ),
         LanguageOption(
             name = stringResource(R.string.language_indonesian),
-            code = "in"
+            code = "id"
         )
     )
 

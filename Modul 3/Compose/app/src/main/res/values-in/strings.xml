@@ -61,4 +61,8 @@
     <string name="pref_title_change_language">Ubah Bahasa</string>
     <string name="pref_category_language_settings">Pengaturan Bahasa</string>
     <string name="title_settings">Pengaturan</string>
+
+    <string name="language_english">Bahasa Inggris</string>
+    <string name="language_indonesian">Bahasa Indonesia</string>
+
 </resources>
