@@ -1,4 +1,4 @@
-package io.github.orizynpx.fivegamescompose.ui
+package io.github.orizynpx.fivegamescompose.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import io.github.orizynpx.fivegamescompose.data.GameRepository

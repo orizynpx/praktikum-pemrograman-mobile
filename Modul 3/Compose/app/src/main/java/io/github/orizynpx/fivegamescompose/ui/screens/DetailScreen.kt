@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.orizynpx.fivegamescompose.R
-import io.github.orizynpx.fivegamescompose.ui.MainViewModel
+import io.github.orizynpx.fivegamescompose.ui.viewmodel.MainViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

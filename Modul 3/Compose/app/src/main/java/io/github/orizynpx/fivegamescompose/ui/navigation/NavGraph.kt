@@ -1,4 +1,4 @@
-package io.github.orizynpx.fivegamescompose.ui
+package io.github.orizynpx.fivegamescompose.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import io.github.orizynpx.fivegamescompose.ui.navigation.Screen
 import io.github.orizynpx.fivegamescompose.ui.detail.DetailScreen
 import io.github.orizynpx.fivegamescompose.ui.home.HomeScreen
 import io.github.orizynpx.fivegamescompose.ui.settings.SettingsScreen
