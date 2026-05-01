@@ -1,11 +1,12 @@
-package io.github.orizynpx.fivegamescompose.model
+package io.github.orizynpx.fivegamescompose.data
 
 import io.github.orizynpx.fivegamescompose.R
+import io.github.orizynpx.fivegamescompose.data.model.Game
 
-class DataSource {
-    fun loadItems(): List<ItemModel> {
+class GameRepository {
+    fun getGames(): List<Game> {
         return listOf(
-            ItemModel(
+            Game(
                 0,
                 R.drawable.bullet_ant,
                 R.string.bullet_ant,
@@ -14,7 +15,7 @@ class DataSource {
                 R.string.bullet_ant_detail,
                 R.string.bullet_ant_url
             ),
-            ItemModel(
+            Game(
                 1,
                 R.drawable.wizard,
                 R.string.wizard,
@@ -23,7 +24,7 @@ class DataSource {
                 R.string.wizard_detail,
                 R.string.wizard_url
             ),
-            ItemModel(
+            Game(
                 2,
                 R.drawable.ammid,
                 R.string.ammid,
@@ -32,7 +33,7 @@ class DataSource {
                 R.string.ammid_detail,
                 R.string.ammid_url
             ),
-            ItemModel(
+            Game(
                 3,
                 R.drawable.robert,
                 R.string.robert,
@@ -41,7 +42,7 @@ class DataSource {
                 R.string.robert_detail,
                 R.string.robert_url
             ),
-            ItemModel(
+            Game(
                 4,
                 R.drawable.personal_space,
                 R.string.personal_space,
