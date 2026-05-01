@@ -24,13 +24,11 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Get the ID passed from the previous screen
         val gameId = arguments?.getInt("gameId") ?: -1
         val game = GameRepository().getGames().find { it.id == gameId }
 
         binding.toolbarDetail.setNavigationOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
-            // OR: findNavController().navigateUp()
         }
 
         game?.let {

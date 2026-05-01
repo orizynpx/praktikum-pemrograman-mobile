@@ -20,7 +20,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val languagePreference = findPreference<ListPreference>("language")
         languagePreference?.setOnPreferenceChangeListener { _, newValue ->
             val code = newValue as String
-            // Modern way to change app language without manual activity restart
             val appLocale: LocaleListCompat = LocaleListCompat.forLanguageTags(code)
             AppCompatDelegate.setApplicationLocales(appLocale)
             true
@@ -35,7 +34,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
         val view = inflater.inflate(R.layout.fragment_settings, container, false)
         val containerView = view.findViewById<FrameLayout>(R.id.settings_container)
 
-        // This attaches the actual settings list into our custom layout's FrameLayout
         val settingsView = super.onCreateView(inflater, containerView, savedInstanceState)
         containerView.addView(settingsView)
 
@@ -45,7 +43,6 @@ class SettingsFragment : PreferenceFragmentCompat() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Set up the back button on the toolbar
         view.findViewById<com.google.android.material.appbar.MaterialToolbar>(R.id.toolbarSettings)
             .setNavigationOnClickListener {
                 findNavController().navigateUp()
