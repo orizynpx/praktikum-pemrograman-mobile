@@ -11,7 +11,6 @@
         \n- Orizyn - Artis
         \n- Medlek - Musik
     </string>
-    <string name="wizard_genre">Teka-Teki</string>
     <string name="wizard_detail">
         Game ini dibuat oleh: (Programmer, Gunturadhtya, https://gunturadhtya.itch.io/) dan (Artist, Orizyn, https://itch.io/profile/orizyn).
         \nGame ini sebenarnya direncanakan memiliki 3 level dan lebih banyak rune tetapi batas saya sebagai pengembang game pemula dan ini pertama kalinya saya menyentuh unity sehingga saya tidak memiliki kapasitas untuk membuat level-level tersebut dalam 10 hari pengembangan game ini.
@@ -53,12 +52,4 @@
         \n- Noor Muhammad Akmal Sulaiman (orizyn): Game Designer
         \n- Sebastian Abe Santoso (bentoso): Level Designer/Artist
     </string>
-    <string name="tv_highlight">Sorotan</string>
-    <string name="tv_game_list">Daftar Gim</string>
-    <string name="btn_detail">Detail</string>
-    <string name="btn_link">Kunjungi Itch.io</string>
-    <string name="tv_genre_label">Genre:</string>
-    <string name="pref_title_change_language">Ubah Bahasa</string>
-    <string name="pref_category_language_settings">Pengaturan Bahasa</string>
-    <string name="title_settings">Pengaturan</string>
 </resources>

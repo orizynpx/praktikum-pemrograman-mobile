@@ -19,29 +19,59 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             FiveGamesComposeTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    Greeting(
-                        name = "Android",
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
+                viewModel: ScrollableViewModel = viewModel(),
+                navController: NavHostController = rememberNavController()
+
+                val uiState by viewModel.uiState.collectAsState()
+                val context = LocalContext.current
+
+                NavHost(
+                    navController = navController,
+                    startDestination = ScrollableScreen.Home.name,
+                ) {
+                    composable(route = ScrollableScreen.Home.name) {
+                        val activity = context as Activity
+                        HomeScreen(
+                            uiState = uiState,
+                            onDetailClick = { index ->
+                                navController.navigate("${ScrollableScreen.Details.name}/$index")
+                            },
+                            onIntentClick = { url ->
+                                context.startActivity(Intent(Intent.ACTION_VIEW, url.toUri()))
+                            },
+                            onSettingsClick = { navController.navigate(ScrollableScreen.Settings.name) },
+                            onExit = { activity.finish() }
+                        )
+                    }
+                    composable(route = "${ScrollableScreen.Details.name}/{itemId}") { backStackEntry ->
+                        val index = backStackEntry.arguments?.getString("itemId")?.toIntOrNull() ?: 0
+                        val item = uiState.list.getOrNull(index) ?: uiState.list.first()
+                        LaunchedEffect(index){
+                            viewModel.updateCurrentScrollable(index)
+                        }
+                        DetailScreen(
+                            item = item,
+                            modifier = Modifier,
+                            onBackClick = { navController.navigateUp() }
+                        )
+                    }
+                    composable(route = ScrollableScreen.Settings.name) {
+                        SettingScreen(
+                            modifier = Modifier,
+                            onBackClick = { navController.navigateUp() },
+                            onLocaleChange = { locale -> viewModel.updateLocale(locale) },
+                            selectedLocale = uiState.selectedLocale
+                        )
+                    }
             }
         }
     }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 }
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     FiveGamesComposeTheme {
-        Greeting("Android")
+
     }
 }
