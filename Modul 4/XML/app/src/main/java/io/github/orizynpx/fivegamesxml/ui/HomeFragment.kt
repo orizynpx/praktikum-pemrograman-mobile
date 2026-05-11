@@ -18,6 +18,7 @@ import com.google.android.material.carousel.HeroCarouselStrategy
 import io.github.orizynpx.fivegamesxml.databinding.FragmentHomeBinding
 import io.github.orizynpx.fivegamesxml.ui.adapter.CarouselAdapter
 import io.github.orizynpx.fivegamesxml.ui.adapter.GameAdapter
+import io.github.orizynpx.fivegamesxml.ui.viewmodel.MainViewModel
 
 class HomeFragment : Fragment() {
 

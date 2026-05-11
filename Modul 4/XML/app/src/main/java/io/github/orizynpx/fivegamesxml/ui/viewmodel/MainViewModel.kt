@@ -1,4 +1,4 @@
-package io.github.orizynpx.fivegamesxml.ui
+package io.github.orizynpx.fivegamesxml.ui.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
