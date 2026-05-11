@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="bullet_ant_genre">Arkade, Kasual</string>
+    <string name="robert_genre">Arkade, Ritme</string>
+    <string name="personal_space_genre">Teka-Teki, Cerita</string>
+    <string name="ammid_genre">Pembangun Dek Mirip Rogue</string>
+    <string name="bullet_ant_detail">
+        Kumpulkan butiran gula sebanyak mungkin sambil menghindari tetesan air hujan. Permainan menjadi semakin sulit seiring meningkatnya gelombang.
+        \n\nKredit:
+        \n- Lan, JNathan (Johnathan Ronald H.) - Programmer
+        \n- Orizyn - Artis
+        \n- Medlek - Musik
+    </string>
+    <string name="wizard_genre">Teka-Teki</string>
+    <string name="wizard_detail">
+        Game ini dibuat oleh: (Programmer, Gunturadhtya, https://gunturadhtya.itch.io/) dan (Artist, Orizyn, https://itch.io/profile/orizyn).
+        \nGame ini sebenarnya direncanakan memiliki 3 level dan lebih banyak rune tetapi batas saya sebagai pengembang game pemula dan ini pertama kalinya saya menyentuh unity sehingga saya tidak memiliki kapasitas untuk membuat level-level tersebut dalam 10 hari pengembangan game ini.
+        \nUntuk menggunakan rune, Anda perlu menyeret rune ke tengah layar hingga berubah menjadi hijau, setelah itu Anda perlu mengeklik tombol akhiri giliran.
+    </string>
+    <string name="robert_detail">
+        Berjuanglah melewati serangkaian musuh di penjara bawah tanah dengan membalik dan mencocokkan kartu bertipe sama. Kartu yang berbeda menimbulkan efek yang berbeda saat berhasil dicocokkan. Hafalkan di mana lokasi mereka untuk benar-benar memenangkan pertempuran.
+        \n\nTim
+        \nTeam ID: 145
+        \n- A. Malik Fajar Putra Syamsi: Sound Designer/Project Manager
+        \n- Arya Arrozza Ridho Syaputra: Programmer
+        \n- Hafiz Perdana: QA Tester
+        \n- Hamka Arifani: Composer
+        \n- M. Rizki Dinar: Programmer
+        \n- Muhammad Guntur Ricky Adhitya: Lead Programmer
+        \n- Muhammad Naufal Khalish: UI Designer
+        \n- Noor Muhammad Akmal Sulaiman: Lead Artist
+        \n- Sebastian Abe Santoso: Artist
+    </string>
+    <string name="ammid_detail">
+        Game yang didasarkan pada game arcade Q*bert, dengan variasi gerakan berbasis ritme yang terinspirasi oleh Crypt of the Necrodancer. Gerakkan karakter Anda melalui lanskap isometrik untuk mengubah blok berdasarkan seberapa baik indra ritme Anda. Ubah semua level untuk memenangkan permainan!
+        \n\nTim
+        \n- Muhammad Guntur Ricky Adhitya (thealmightylan): Project Manager/Lead Programmer
+        \n- A. Malik Fajar Putra Syamsi (littlepien): QA Tester
+        \n- Arya Arrozza Ridho Syaputra (epsiloneepy): Programmer
+        \n- Hafiz Perdana (lixxiechan): Sound Designer/QA Tester
+        \n- Muhammad Naufal Khalish (yuuukosoo): Lead Artist
+        \n- Noor Muhammad Akmal Sulaiman (orizyn): Game Designer
+        \n- Sebastian Abe Santoso (bentoso): Level Designer/Artist
+    </string>
+    <string name="personal_space_detail">
+        Game yang didasarkan pada game arcade Q*bert, dengan variasi gerakan berbasis ritme yang terinspirasi oleh Crypt of the Necrodancer. Gerakkan karakter Anda melalui lanskap isometrik untuk mengubah blok berdasarkan seberapa baik indra ritme Anda. Ubah semua level untuk memenangkan permainan!
+        \n\nTim
+        \n- Muhammad Guntur Ricky Adhitya (thealmightylan): Project Manager/Lead Programmer
+        \n- A. Malik Fajar Putra Syamsi (littlepien): QA Tester
+        \n- Arya Arrozza Ridho Syaputra (epsiloneepy): Programmer
+        \n- Hafiz Perdana (lixxiechan): Sound Designer/QA Tester
+        \n- Muhammad Naufal Khalish (yuuukosoo): Lead Artist
+        \n- Noor Muhammad Akmal Sulaiman (orizyn): Game Designer
+        \n- Sebastian Abe Santoso (bentoso): Level Designer/Artist
+    </string>
+    <string name="tv_highlight">Sorotan</string>
+    <string name="tv_game_list">Daftar Gim</string>
+    <string name="btn_detail">Detail</string>
+    <string name="btn_link">Kunjungi Itch.io</string>
+    <string name="tv_genre_label">Genre:</string>
+    <string name="pref_title_change_language">Ubah Bahasa</string>
+    <string name="pref_category_language_settings">Pengaturan Bahasa</string>
+    <string name="title_settings">Pengaturan</string>
+</resources>
