@@ -43,7 +43,7 @@
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_carousel"
+            android:id="@+id/rv_game_carousel"
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:clipChildren="false"
@@ -60,11 +60,11 @@
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rv_games"
+            android:id="@+id/rv_game_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:nestedScrollingEnabled="false"
-            tools:listitem="@layout/item_game_vertical" />
+            tools:listitem="@layout/item_game_list" />
 
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>
