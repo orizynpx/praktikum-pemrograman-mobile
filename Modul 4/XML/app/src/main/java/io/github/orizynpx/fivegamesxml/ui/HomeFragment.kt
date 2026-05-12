@@ -8,6 +8,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import io.github.orizynpx.fivegamesxml.R
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,6 +23,8 @@ import io.github.orizynpx.fivegamesxml.ui.adapter.CarouselGameAdapter
 import io.github.orizynpx.fivegamesxml.ui.adapter.ListGameAdapter
 import io.github.orizynpx.fivegamesxml.ui.viewmodel.HomeViewModel
 import io.github.orizynpx.fivegamesxml.ui.viewmodel.HomeViewModelFactory
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class HomeFragment : Fragment() {
 
@@ -27,7 +32,7 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory("Five Games at Wasaka's XML")
+        HomeViewModelFactory(requireActivity().application, "Five Games at Wasaka's XML")
     }
 
     private var listGameAdapter: ListGameAdapter? = null
@@ -54,21 +59,19 @@ class HomeFragment : Fragment() {
         }
 
         setupRecyclerViews()
+
+        observeViewModel()
     }
 
     private fun setupAdapters() {
         listGameAdapter = ListGameAdapter(
-            onDetailClick = { game -> navigateToDetail(game.id) },
-            onLinkClick = { url ->
-                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
-            }
+            onDetailClick = { game -> viewModel.onDetailClicked(game) },
+            onLinkClick = { url -> viewModel.onLinkClicked(url) }
         )
         listGameAdapter?.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
-        carouselGameAdapter = CarouselGameAdapter { game ->
-            navigateToDetail(game.id)
-        }
+        carouselGameAdapter = CarouselGameAdapter { game -> viewModel.onDetailClicked(game) }
         carouselGameAdapter?.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
@@ -85,6 +88,41 @@ class HomeFragment : Fragment() {
             adapter = carouselGameAdapter
             setHasFixedSize(true)
             CarouselSnapHelper().attachToRecyclerView(this)
+        }
+    }
+
+    private fun observeViewModel() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+
+                launch {
+                    viewModel.gameList.collect { games ->
+                        listGameAdapter?.submitList(games)
+                        carouselGameAdapter?.submitList(games)
+                    }
+                }
+
+                launch {
+                    viewModel.navigateToDetail.collect { game ->
+                        game?.let {
+                            Timber.d("GALAT: Navigasi ke halaman Detail dengan membawa data berupa ${it})")
+
+                            navigateToDetail(it.id)
+                            viewModel.onDetailNavigated()
+                        }
+                    }
+                }
+
+                launch {
+                    viewModel.navigateToLink.collect { url ->
+                        url?.let {
+                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+                            startActivity(intent)
+                            viewModel.onLinkNavigated()
+                        }
+                    }
+                }
+            }
         }
     }
 

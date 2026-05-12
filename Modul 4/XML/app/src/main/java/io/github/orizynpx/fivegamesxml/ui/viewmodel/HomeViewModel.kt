@@ -1,6 +1,7 @@
 package io.github.orizynpx.fivegamesxml.ui.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import io.github.orizynpx.fivegamesxml.data.GameRepository
 import io.github.orizynpx.fivegamesxml.data.model.Game
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -8,14 +9,44 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import timber.log.Timber
 
-class HomeViewModel(private val appLabel: String) : ViewModel() {
+class HomeViewModel(application: Application, private val appLabel: String) : AndroidViewModel(application) {
     private val repository = GameRepository()
 
-    private val _games = MutableStateFlow<List<Game>>(emptyList())
-    val games: StateFlow<List<Game>> = _games.asStateFlow()
+    private val _gameList = MutableStateFlow<List<Game>>(emptyList())
+    val gameList: StateFlow<List<Game>> = _gameList.asStateFlow()
+
+    private val _navigateToDetail = MutableStateFlow<Game?>(null)
+    val navigateToDetail: StateFlow<Game?> = _navigateToDetail.asStateFlow()
+
+    private val _navigateToLink = MutableStateFlow<String?>(null)
+    val navigateToLink: StateFlow<String?> = _navigateToLink.asStateFlow()
 
     init {
-        _games.value = repository.getGames()
         Timber.d("GALAT: HomeViewModel dibuat dengan label $appLabel")
+        loadGames(repository.getGames())
+    }
+
+    fun loadGames(games: List<Game>) {
+        _gameList.value = games
+        val gameTitles = games.map { getApplication<Application>().getString(it.titleResourceId) }
+        Timber.d("GALAT: Item di-load sejumlah ${_gameList.value.size}: ${gameTitles}")
+    }
+
+    fun onDetailClicked(game: Game) {
+        Timber.d("GALAT: Tombol Detail ditekan")
+        _navigateToDetail.value = game
+    }
+
+    fun onDetailNavigated() {
+        _navigateToDetail.value = null
+    }
+
+    fun onLinkClicked(url: String) {
+        Timber.d("GALAT: Tombol explicit intent ditekan")
+        _navigateToLink.value = url
+    }
+
+    fun onLinkNavigated() {
+        _navigateToLink.value = null
     }
 }
