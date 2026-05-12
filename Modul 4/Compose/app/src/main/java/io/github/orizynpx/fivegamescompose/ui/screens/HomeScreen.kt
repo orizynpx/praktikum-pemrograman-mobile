@@ -1,7 +1,9 @@
 package io.github.orizynpx.fivegamescompose.ui.home
 
+import android.app.Application
 import android.content.Intent
 import android.net.Uri
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +37,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -48,19 +51,50 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.orizynpx.fivegamescompose.R
 import io.github.orizynpx.fivegamescompose.data.model.Game
-import io.github.orizynpx.fivegamescompose.ui.viewmodel.MainViewModel
+import io.github.orizynpx.fivegamescompose.ui.viewmodel.HomeViewModel
+import io.github.orizynpx.fivegamescompose.ui.viewmodel.HomeViewModelFactory
+import timber.log.Timber
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     onNavigateToDetail: (Int) -> Unit,
-    onNavigateToSettings: () -> Unit,
-    viewModel: MainViewModel = viewModel()
+    onNavigateToSettings: () -> Unit
 ) {
-    val games by viewModel.games.collectAsState()
+    val activity = LocalContext.current as ComponentActivity
+    val context = LocalContext.current
+
+    val viewModel: HomeViewModel = viewModel(
+        viewModelStoreOwner = activity,
+        factory = HomeViewModelFactory(
+            application = LocalContext.current.applicationContext as Application,
+            appLabel = stringResource(R.string.app_name)
+        )
+    )
+
+    val games by viewModel.gameList.collectAsStateWithLifecycle()
+    val navigateToDetail by viewModel.navigateToDetail.collectAsStateWithLifecycle()
+    val navigateToLink by viewModel.navigateToLink.collectAsStateWithLifecycle()
+
+    LaunchedEffect(navigateToDetail) {
+        navigateToDetail?.let { game ->
+            Timber.d("GALAT: Navigasi ke halaman Detail dengan membawa data berupa ${game}")
+            onNavigateToDetail(game.id)
+            viewModel.onDetailNavigated()
+        }
+    }
+
+    LaunchedEffect(navigateToLink) {
+        navigateToLink?.let {
+            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
+            context.startActivity(intent)
+            viewModel.onLinkNavigated()
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -101,9 +135,9 @@ fun HomeScreen(
                 )
             }
             item {
-                GameCarousel(
+                GameCarouselItem(
                     games = games,
-                    onGameClick = { onNavigateToDetail(it.id) }
+                    onGameClick = { viewModel.onDetailClicked(it) }
                 )
             }
 
@@ -119,7 +153,8 @@ fun HomeScreen(
             items(games, key = { it.id }) { game ->
                 GameListItem(
                     game = game,
-                    onDetailClick = { onNavigateToDetail(game.id) },
+                    onDetailClick = { viewModel.onDetailClicked(game) },
+                    onLinkClick = { url -> viewModel.onLinkClicked(url) }
                 )
             }
         }
@@ -127,7 +162,7 @@ fun HomeScreen(
 }
 
 @Composable
-fun GameCarousel(
+fun GameCarouselItem(
     games: List<Game>,
     onGameClick: (Game) -> Unit
 ) {
@@ -157,6 +192,7 @@ fun GameCarousel(
 fun GameListItem(
     game: Game,
     onDetailClick: () -> Unit,
+    onLinkClick: (String) -> Unit
 ) {
     val context = LocalContext.current
     val urlString = stringResource(game.urlResourceId)
@@ -236,11 +272,7 @@ fun GameListItem(
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     Button(
-                        onClick = {
-                            context.startActivity(
-                                Intent(Intent.ACTION_VIEW, Uri.parse(urlString))
-                            )
-                        }
+                        onClick = { onLinkClick(urlString) }
                     ) {
                         Text(text = stringResource(R.string.btn_link))
                     }

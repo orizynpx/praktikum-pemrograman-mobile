@@ -1,5 +1,7 @@
 package io.github.orizynpx.fivegamescompose.ui.detail
 
+import android.app.Application
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,23 +25,35 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import io.github.orizynpx.fivegamescompose.R
-import io.github.orizynpx.fivegamescompose.ui.viewmodel.MainViewModel
+import io.github.orizynpx.fivegamescompose.ui.viewmodel.HomeViewModel
+import io.github.orizynpx.fivegamescompose.ui.viewmodel.HomeViewModelFactory
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DetailScreen(
     gameId: Int,
-    onNavigateBack: () -> Unit,
-    viewModel: MainViewModel = viewModel()
+    onNavigateBack: () -> Unit
 ) {
-    val games by viewModel.games.collectAsState()
+    val activity = LocalContext.current as ComponentActivity
+
+    val viewModel: HomeViewModel = viewModel(
+        viewModelStoreOwner = activity,
+        factory = HomeViewModelFactory(
+            application = LocalContext.current.applicationContext as Application,
+            appLabel = stringResource(R.string.app_name)
+        )
+    )
+
+    val games by viewModel.gameList.collectAsStateWithLifecycle()
     val game = games.find { it.id == gameId }
 
     Scaffold(
