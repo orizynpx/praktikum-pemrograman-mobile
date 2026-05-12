@@ -18,16 +18,16 @@ import com.google.android.material.carousel.HeroCarouselStrategy
 import io.github.orizynpx.fivegamesxml.databinding.FragmentHomeBinding
 import io.github.orizynpx.fivegamesxml.ui.adapter.CarouselAdapter
 import io.github.orizynpx.fivegamesxml.ui.adapter.GameAdapter
-import io.github.orizynpx.fivegamesxml.ui.viewmodel.MainViewModel
-import io.github.orizynpx.fivegamesxml.ui.viewmodel.MainViewModelFactory
+import io.github.orizynpx.fivegamesxml.ui.viewmodel.HomeViewModel
+import io.github.orizynpx.fivegamesxml.ui.viewmodel.HomeViewModelFactory
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MainViewModel by viewModels {
-        MainViewModelFactory("Five Games at Wasaka's XML")
+    private val viewModel: HomeViewModel by viewModels {
+        HomeViewModelFactory("Five Games at Wasaka's XML")
     }
 
     private var gameAdapter: GameAdapter? = null
@@ -54,11 +54,6 @@ class HomeFragment : Fragment() {
         }
 
         setupRecyclerViews()
-
-        viewModel.games.observe(viewLifecycleOwner) { gamesList ->
-            gameAdapter?.submitList(gamesList)
-            carouselAdapter?.submitList(gamesList)
-        }
     }
 
     private fun setupAdapters() {
