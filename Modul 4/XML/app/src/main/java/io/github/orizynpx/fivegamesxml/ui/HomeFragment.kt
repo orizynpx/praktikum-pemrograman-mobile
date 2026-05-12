@@ -74,13 +74,13 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupRecyclerViews() {
-        binding.rvGames.apply {
+        binding.rvGameList.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = listGameAdapter
             setHasFixedSize(true)
         }
 
-        binding.rvCarousel.apply {
+        binding.rvGameCarousel.apply {
             layoutManager = CarouselLayoutManager(HeroCarouselStrategy())
             adapter = carouselGameAdapter
             setHasFixedSize(true)

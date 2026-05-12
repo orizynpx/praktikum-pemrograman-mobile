@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import timber.log.Timber
 
-class HomeViewModel(private val locale: String) : ViewModel() {
+class HomeViewModel(private val appLabel: String) : ViewModel() {
     private val repository = GameRepository()
 
     private val _games = MutableStateFlow<List<Game>>(emptyList())
@@ -16,6 +16,6 @@ class HomeViewModel(private val locale: String) : ViewModel() {
 
     init {
         _games.value = repository.getGames()
-        Timber.d("MainViewModel dibuat dengan label $locale")
+        Timber.d("GALAT: HomeViewModel dibuat dengan label $appLabel")
     }
 }
