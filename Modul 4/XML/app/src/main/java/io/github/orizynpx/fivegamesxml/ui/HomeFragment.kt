@@ -16,8 +16,8 @@ import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.carousel.HeroCarouselStrategy
 import io.github.orizynpx.fivegamesxml.databinding.FragmentHomeBinding
-import io.github.orizynpx.fivegamesxml.ui.adapter.CarouselAdapter
-import io.github.orizynpx.fivegamesxml.ui.adapter.GameAdapter
+import io.github.orizynpx.fivegamesxml.ui.adapter.CarouselGameAdapter
+import io.github.orizynpx.fivegamesxml.ui.adapter.ListGameAdapter
 import io.github.orizynpx.fivegamesxml.ui.viewmodel.HomeViewModel
 import io.github.orizynpx.fivegamesxml.ui.viewmodel.HomeViewModelFactory
 
@@ -30,8 +30,8 @@ class HomeFragment : Fragment() {
         HomeViewModelFactory("Five Games at Wasaka's XML")
     }
 
-    private var gameAdapter: GameAdapter? = null
-    private var carouselAdapter: CarouselAdapter? = null
+    private var listGameAdapter: ListGameAdapter? = null
+    private var carouselGameAdapter: CarouselGameAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +49,7 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
         }
 
-        if (gameAdapter == null || carouselAdapter == null) {
+        if (listGameAdapter == null || carouselGameAdapter == null) {
             setupAdapters()
         }
 
@@ -57,32 +57,32 @@ class HomeFragment : Fragment() {
     }
 
     private fun setupAdapters() {
-        gameAdapter = GameAdapter(
+        listGameAdapter = ListGameAdapter(
             onDetailClick = { game -> navigateToDetail(game.id) },
             onLinkClick = { url ->
                 startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
             }
         )
-        gameAdapter?.stateRestorationPolicy =
+        listGameAdapter?.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
-        carouselAdapter = CarouselAdapter { game ->
+        carouselGameAdapter = CarouselGameAdapter { game ->
             navigateToDetail(game.id)
         }
-        carouselAdapter?.stateRestorationPolicy =
+        carouselGameAdapter?.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
 
     private fun setupRecyclerViews() {
         binding.rvGames.apply {
             layoutManager = LinearLayoutManager(requireContext())
-            adapter = gameAdapter
+            adapter = listGameAdapter
             setHasFixedSize(true)
         }
 
         binding.rvCarousel.apply {
             layoutManager = CarouselLayoutManager(HeroCarouselStrategy())
-            adapter = carouselAdapter
+            adapter = carouselGameAdapter
             setHasFixedSize(true)
             CarouselSnapHelper().attachToRecyclerView(this)
         }

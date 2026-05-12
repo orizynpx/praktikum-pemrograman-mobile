@@ -7,8 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import io.github.orizynpx.fivegamesxml.data.model.Game
 import io.github.orizynpx.fivegamesxml.databinding.ItemGameCarouselBinding
 
-class CarouselAdapter(private val onClick: (Game) -> Unit) :
-    ListAdapter<Game, CarouselAdapter.ViewHolder>(GameAdapter.DiffCallback) {
+class CarouselGameAdapter(private val onClick: (Game) -> Unit) :
+    ListAdapter<Game, CarouselGameAdapter.ViewHolder>(ListGameAdapter.DiffCallback) {
 
     class ViewHolder(val binding: ItemGameCarouselBinding) : RecyclerView.ViewHolder(binding.root)
 

@@ -8,10 +8,10 @@ import androidx.recyclerview.widget.RecyclerView
 import io.github.orizynpx.fivegamesxml.data.model.Game
 import io.github.orizynpx.fivegamesxml.databinding.ItemGameVerticalBinding
 
-class GameAdapter(
+class ListGameAdapter(
     private val onDetailClick: (Game) -> Unit,
     private val onLinkClick: (String) -> Unit
-) : ListAdapter<Game, GameAdapter.GameViewHolder>(DiffCallback) {
+) : ListAdapter<Game, ListGameAdapter.GameViewHolder>(DiffCallback) {
 
     class GameViewHolder(private val binding: ItemGameVerticalBinding) :
         RecyclerView.ViewHolder(binding.root) {
