@@ -19,13 +19,16 @@ import io.github.orizynpx.fivegamesxml.databinding.FragmentHomeBinding
 import io.github.orizynpx.fivegamesxml.ui.adapter.CarouselAdapter
 import io.github.orizynpx.fivegamesxml.ui.adapter.GameAdapter
 import io.github.orizynpx.fivegamesxml.ui.viewmodel.MainViewModel
+import io.github.orizynpx.fivegamesxml.ui.viewmodel.MainViewModelFactory
 
 class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels {
+        MainViewModelFactory("Five Games at Wasaka's XML")
+    }
 
     private var gameAdapter: GameAdapter? = null
     private var carouselAdapter: CarouselAdapter? = null
