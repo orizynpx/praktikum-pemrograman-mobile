@@ -1,5 +1,6 @@
 package io.github.orizynpx.fivegamescompose.ui.home
 
+import android.annotation.SuppressLint
 import android.app.Application
 import android.content.Intent
 import android.net.Uri
@@ -59,6 +60,7 @@ import io.github.orizynpx.fivegamescompose.ui.viewmodel.HomeViewModel
 import io.github.orizynpx.fivegamescompose.ui.viewmodel.HomeViewModelFactory
 import timber.log.Timber
 
+@SuppressLint("ContextCastToActivity")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
