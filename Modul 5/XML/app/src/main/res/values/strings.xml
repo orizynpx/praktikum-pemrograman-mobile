@@ -1,0 +1,86 @@
+<resources>
+    <string name="app_name" translatable="false">Five Games at Wasaka\'s XML</string>
+    <string name="year_2024" translatable="false">2024</string>
+    <string name="year_2025" translatable="false">2025</string>
+
+    <!--Bullet Ant-->
+    <string name="bullet_ant" translatable="false">Bullet Ant</string>
+    <string name="bullet_ant_genre">Arcade, Casual</string>
+    <string name="bullet_ant_detail">
+        Collect as many sugar bits as you can while dodging the rain drop. The game gets progressively difficult as the wave increases.
+        \n\nCredits:
+        \n- Lan, JNathan (Johnathan Ronald H.) - Programmer
+        \n- Orizyn - Artist
+        \n- Medlek - Music
+    </string>
+    <string name="bullet_ant_url" translatable="false">https://jnathan.itch.io/bullet-ant</string>
+
+    <!--Wizard-->
+    <string name="wizard" translatable="false">Revived by My Own Magic: The Wizard Who Came Back from the Dead Because His Useless Party Couldn\'t Resurrect Him</string>
+    <string name="wizard_genre">Puzzle</string>
+    <string name="wizard_detail">
+        This game is created by: (Programmer, Gunturadhtya, https://gunturadhtya.itch.io/) and (Artist, Orizyn, https://itch.io/profile/orizyn).
+        \nThis game actually planned to have 3 level and a lot more rune but my limit as a beginner game developer and its my first time touching unity so i didnt have the capacity to make those level in this 10 days of game development.
+        \nTo use the rune, you need  to drag the rune to the center of the  screen until it become green, after that you need to click the end turn button.
+    </string>
+    <string name="wizard_url" translatable="false">https://gunturadhtya.itch.io/revived-by-my-own-magic-the-wizard-who-came-back-from-the-dead-because-his-usele</string>
+
+    <!--AMMID-->
+    <string name="ammid" translatable="false">A Match Made in Dungeon</string>
+    <string name="ammid_genre">Roguelike Deckbuilder</string>
+    <string name="ammid_detail">
+        Fight your way through a series of enemies in a dungeon by flipping and matching cards of the same type. Different cards cause different effects when successfully matched. Memorize where their locations are to truly win the battle.
+        \n\nTeam
+        \nTeam ID: 145
+        \n- A. Malik Fajar Putra Syamsi: Sound Designer/Project Manager
+        \n- Arya Arrozza Ridho Syaputra: Programmer
+        \n- Hafiz Perdana: QA Tester
+        \n- Hamka Arifani: Composer
+        \n- M. Rizki Dinar: Programmer
+        \n- Muhammad Guntur Ricky Adhitya: Lead Programmer
+        \n- Muhammad Naufal Khalish: UI Designer
+        \n- Noor Muhammad Akmal Sulaiman: Lead Artist
+        \n- Sebastian Abe Santoso: Artist
+    </string>
+    <string name="ammid_url" translatable="false">https://wasakagames.itch.io/a-match-made-in-dungeon</string>
+
+    <!--R*bert-->
+    <string name="robert" translatable="false">R*bert</string>
+    <string name="robert_genre">Arcade, Rhythm</string>
+    <string name="robert_detail">
+        A game based on the arcade game Q*bert, with the twist of rhythm-based movement inspired by Crypt of the Necrodancer. Move your character through the isometric landscape to transform the blocks based on how well your sense of rhythm is. Transform all levels to win the game!
+        \n\nTeam
+        \n- Muhammad Guntur Ricky Adhitya (thealmightylan): Project Manager/Lead Programmer
+        \n- A. Malik Fajar Putra Syamsi (littlepien): QA Tester
+        \n- Arya Arrozza Ridho Syaputra (epsiloneepy): Programmer
+        \n- Hafiz Perdana (lixxiechan): Sound Designer/QA Tester
+        \n- Muhammad Naufal Khalish (yuuukosoo): Lead Artist
+        \n- Noor Muhammad Akmal Sulaiman (orizyn): Game Designer
+        \n- Sebastian Abe Santoso (bentoso): Level Designer/Artist
+    </string>
+    <string name="robert_url" translatable="false">https://wasakagames.itch.io/rhythm-qubert</string>
+
+    <!--Personal Space-->
+    <string name="personal_space" translatable="false">Personal Space</string>
+    <string name="personal_space_genre">Puzzle, Story-Driven</string>
+    <string name="personal_space_detail">
+        Rafi worked endless shifts to save his sister, but she passed away while he was at work. Now he never leaves his apartment, believing the outside world took her away.
+        \nAid him in his recovery by creating a space for him inside his own room.
+        \n\nTeam
+        \n- Muhammad Guntur Ricky Adhitya: Project Lead/Programmer
+        \n- Hamka Arifani: SFX Designer
+        \n- Muhammad Naufal Abdillah: QA Tester
+        \n- Noor Muhammad Akmal Sulaiman: Pixel Artist/Writer
+        \n- Sebastian Abe Santoso: Level Designer
+    </string>
+    <string name="personal_space_url" translatable="false">https://orizyn.itch.io/personal-space</string>
+
+    <string name="tv_highlight">Highlight</string>
+    <string name="tv_game_list">List of Games</string>
+    <string name="btn_detail">Detail</string>
+    <string name="btn_link">Go to Itch.io</string>
+    <string name="tv_genre_label">Genre:</string>
+    <string name="pref_title_change_language">Change Language</string>
+    <string name="pref_category_language_settings">Language Settings</string>
+    <string name="title_settings">Settings</string>
+</resources>
