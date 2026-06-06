@@ -1,0 +1,8 @@
+package io.github.orizynpx.fivegamesxml.data.remote.model
+
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class MovieDTO(
+    val movieId: Int
+)
