@@ -42,7 +42,8 @@ class DetailFragment : Fragment() {
                 binding.tvDetailTitle.text = it.title
                 binding.tvDetailDescription.text = it.overview
                 
-                val imageUrl = "https://image.tmdb.org/t/p/w780${it.backdropPath ?: it.posterPath}"
+                val path = it.backdropPath ?: it.posterPath
+                val imageUrl = path?.let { p -> "https://image.tmdb.org/t/p/w780$p" }
                 binding.imgDetail.load(imageUrl)
             }
         }

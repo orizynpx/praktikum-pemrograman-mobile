@@ -22,7 +22,7 @@ class CarouselMovieAdapter(private val onClick: (MovieEntity) -> Unit) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movie = getItem(position)
-        val imageUrl = "https://image.tmdb.org/t/p/w780${movie.backdropPath}"
+        val imageUrl = movie.backdropPath?.let { "https://image.tmdb.org/t/p/w780$it" }
         
         holder.binding.imgCarousel.load(imageUrl) {
             crossfade(true)

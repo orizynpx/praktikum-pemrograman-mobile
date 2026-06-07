@@ -25,7 +25,7 @@ class ListMovieAdapter(
             binding.tvYear.text = movie.releaseDate
             binding.tvGenre.text = movie.overview
 
-            val imageUrl = "https://image.tmdb.org/t/p/w500${movie.posterPath}"
+            val imageUrl = movie.posterPath?.let { "https://image.tmdb.org/t/p/w500$it" }
             binding.imgMovie.load(imageUrl) {
                 crossfade(true)
                 placeholder(R.drawable.ic_launcher_background)
