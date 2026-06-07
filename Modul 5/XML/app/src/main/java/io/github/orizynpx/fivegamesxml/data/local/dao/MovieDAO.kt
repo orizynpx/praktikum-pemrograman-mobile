@@ -8,11 +8,13 @@ import io.github.orizynpx.fivegamesxml.data.local.entity.MovieEntity
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface MovieDAO {
-    //    @Query(value = <statement>) fun query(): Flow<List<MovieEntity>>
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insert()
+interface MovieDao {
+    @Query("SELECT * FROM movies")
+    fun getAllMovies(): Flow<List<MovieEntity>>
 
-//    @Query
-    suspend fun delete()
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun insertMovies(movies: List<MovieEntity>)
+
+    @Query("DELETE FROM movies")
+    suspend fun clearMovies()
 }
