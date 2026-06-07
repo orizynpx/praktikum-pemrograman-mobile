@@ -28,11 +28,11 @@
             android:id="@+id/tv_year"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="4dp"
+            android:textSize="12sp"
             android:textColor="@color/material_dynamic_neutral60"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="2024" />
+            tools:text="2024-10-10" />
 
         <TextView
             android:id="@+id/tv_title"
@@ -45,36 +45,21 @@
             app:layout_constraintEnd_toStartOf="@id/tv_year"
             app:layout_constraintStart_toEndOf="@id/img_game"
             app:layout_constraintTop_toTopOf="parent"
-            tools:text="Game Title That Is Very Long and Wraps Around" />
+            tools:text="Movie Title" />
 
-        <LinearLayout
-            android:id="@+id/ll_genre"
+        <TextView
+            android:id="@+id/tv_genre"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:layout_marginTop="4dp"
-            android:orientation="horizontal"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@id/ll_buttons"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@id/tv_title"
-            app:layout_constraintTop_toBottomOf="@id/tv_title">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tv_genre_label"
-                android:textSize="14sp"
-                android:textStyle="bold" />
-
-            <Space
-                android:layout_width="14sp"
-                android:layout_height="match_parent" />
-
-            <TextView
-                android:id="@+id/tv_genre"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="14sp"
-                tools:text="Action RPG" />
-        </LinearLayout>
+            app:layout_constraintTop_toBottomOf="@id/tv_title"
+            tools:text="This is a very long movie overview that will be truncated after three lines of text to ensure it fits the card." />
 
         <LinearLayout
             android:id="@+id/ll_buttons"
@@ -84,7 +69,7 @@
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ll_genre"
+            app:layout_constraintTop_toBottomOf="@id/tv_genre"
             app:layout_constraintVertical_bias="1.0">
 
             <Button
@@ -102,6 +87,7 @@
                 android:id="@+id/btn_link"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:visibility="gone"
                 android:text="@string/btn_link" />
         </LinearLayout>
 

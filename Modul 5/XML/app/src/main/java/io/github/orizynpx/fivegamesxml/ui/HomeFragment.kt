@@ -1,11 +1,11 @@
 package io.github.orizynpx.fivegamesxml.ui
 
-import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -18,13 +18,14 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.carousel.HeroCarouselStrategy
+import io.github.orizynpx.fivegamesxml.FiveGamesApplication
+import io.github.orizynpx.fivegamesxml.data.remote.NetworkResult
 import io.github.orizynpx.fivegamesxml.databinding.FragmentHomeBinding
 import io.github.orizynpx.fivegamesxml.ui.adapter.CarouselGameAdapter
 import io.github.orizynpx.fivegamesxml.ui.adapter.ListGameAdapter
 import io.github.orizynpx.fivegamesxml.ui.viewmodel.HomeViewModel
 import io.github.orizynpx.fivegamesxml.ui.viewmodel.HomeViewModelFactory
 import kotlinx.coroutines.launch
-import timber.log.Timber
 
 class HomeFragment : Fragment() {
 
@@ -32,7 +33,8 @@ class HomeFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory(requireActivity().application, "Five Games at Wasaka's XML")
+        val app = requireActivity().application as FiveGamesApplication
+        HomeViewModelFactory(app, app.repository)
     }
 
     private var listGameAdapter: ListGameAdapter? = null
@@ -65,13 +67,12 @@ class HomeFragment : Fragment() {
 
     private fun setupAdapters() {
         listGameAdapter = ListGameAdapter(
-            onDetailClick = { game -> viewModel.onDetailClicked(game) },
-            onLinkClick = { url -> viewModel.onLinkClicked(url) }
+            onDetailClick = { movie -> viewModel.onDetailClicked(movie) }
         )
         listGameAdapter?.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
-        carouselGameAdapter = CarouselGameAdapter { game -> viewModel.onDetailClicked(game) }
+        carouselGameAdapter = CarouselGameAdapter { movie -> viewModel.onDetailClicked(movie) }
         carouselGameAdapter?.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
     }
@@ -96,29 +97,29 @@ class HomeFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 launch {
-                    viewModel.gameList.collect { games ->
-                        listGameAdapter?.submitList(games)
-                        carouselGameAdapter?.submitList(games)
+                    viewModel.movieList.collect { movies ->
+                        listGameAdapter?.submitList(movies)
+                        carouselGameAdapter?.submitList(movies)
                     }
                 }
 
                 launch {
-                    viewModel.navigateToDetail.collect { game ->
-                        game?.let {
-                            Timber.d("GALAT: Navigasi ke halaman Detail dengan membawa data berupa ${it})")
-
-                            navigateToDetail(it.id)
-                            viewModel.onDetailNavigated()
+                    viewModel.refreshState.collect { result ->
+                        // Assuming FragmentHomeBinding has a ProgressBar with ID 'progressBar'
+                        // If not, we might need to add it or skip this specific visibility toggle.
+                        // binding.progressBar.isVisible = result is NetworkResult.Loading
+                        
+                        if (result is NetworkResult.Error) {
+                            Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
                         }
                     }
                 }
 
                 launch {
-                    viewModel.navigateToLink.collect { url ->
-                        url?.let {
-                            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(it))
-                            startActivity(intent)
-                            viewModel.onLinkNavigated()
+                    viewModel.navigateToDetail.collect { movie ->
+                        movie?.let {
+                            navigateToDetail(it.id)
+                            viewModel.onDetailNavigated()
                         }
                     }
                 }
@@ -126,8 +127,8 @@ class HomeFragment : Fragment() {
         }
     }
 
-    private fun navigateToDetail(gameId: Int) {
-        val bundle = Bundle().apply { putInt("gameId", gameId) }
+    private fun navigateToDetail(movieId: Int) {
+        val bundle = Bundle().apply { putInt("movieId", movieId) }
         findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
     }
 

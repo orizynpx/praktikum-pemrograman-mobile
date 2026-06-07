@@ -5,8 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import io.github.orizynpx.fivegamesxml.data.GameRepository
+import androidx.lifecycle.lifecycleScope
+import coil3.load
+import io.github.orizynpx.fivegamesxml.FiveGamesApplication
 import io.github.orizynpx.fivegamesxml.databinding.FragmentDetailBinding
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 
 class DetailFragment : Fragment() {
 
@@ -24,17 +28,23 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val gameId = arguments?.getInt("gameId") ?: -1
-        val game = GameRepository().getGames().find { it.id == gameId }
-
+        val movieId = arguments?.getInt("movieId") ?: -1
+        
         binding.toolbarDetail.setNavigationOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-        game?.let {
-            binding.imgDetail.setImageResource(it.imageResourceId)
-            binding.tvDetailTitle.text = getString(it.titleResourceId)
-            binding.tvDetailDescription.text = getString(it.detailResourceId)
+        viewLifecycleOwner.lifecycleScope.launch {
+            val app = requireActivity().application as FiveGamesApplication
+            val movie = app.repository.movies.first().find { it.id == movieId }
+
+            movie?.let {
+                binding.tvDetailTitle.text = it.title
+                binding.tvDetailDescription.text = it.overview
+                
+                val imageUrl = "https://image.tmdb.org/t/p/w780${it.backdropPath ?: it.posterPath}"
+                binding.imgDetail.load(imageUrl)
+            }
         }
     }
 

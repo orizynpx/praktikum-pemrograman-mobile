@@ -16,9 +16,6 @@
         app:title="@string/btn_detail" />
 
     <androidx.core.widget.NestedScrollView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true">
@@ -30,8 +27,9 @@
             <ImageView
                 android:id="@+id/imgDetail"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
                 android:scaleType="centerCrop"
+                app:layout_constraintDimensionRatio="H,16:9"
                 app:layout_constraintTop_toTopOf="parent"
                 tools:src="@drawable/bullet_ant" />
 
@@ -43,16 +41,17 @@
                 android:textSize="24sp"
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/imgDetail"
-                tools:text="Game Title" />
+                tools:text="Movie Title" />
 
             <TextView
                 android:id="@+id/tvDetailDescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="16dp"
+                android:paddingBottom="16dp"
                 android:textSize="16sp"
                 app:layout_constraintTop_toBottomOf="@id/tvDetailTitle"
-                tools:text="This is the full description of the game..." />
+                tools:text="This is the full plot overview of the movie..." />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.core.widget.NestedScrollView>

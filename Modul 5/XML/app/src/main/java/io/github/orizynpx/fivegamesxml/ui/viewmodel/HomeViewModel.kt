@@ -2,51 +2,53 @@ package io.github.orizynpx.fivegamesxml.ui.viewmodel
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import io.github.orizynpx.fivegamesxml.data.GameRepository
-import io.github.orizynpx.fivegamesxml.data.model.Game
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import androidx.lifecycle.viewModelScope
+import io.github.orizynpx.fivegamesxml.data.MovieRepository
+import io.github.orizynpx.fivegamesxml.data.local.entity.MovieEntity
+import io.github.orizynpx.fivegamesxml.data.remote.NetworkResult
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 import timber.log.Timber
 
-class HomeViewModel(application: Application, private val appLabel: String) : AndroidViewModel(application) {
-    private val repository = GameRepository()
+class HomeViewModel(
+    application: Application,
+    private val repository: MovieRepository
+) : AndroidViewModel(application) {
 
-    private val _gameList = MutableStateFlow<List<Game>>(emptyList())
-    val gameList: StateFlow<List<Game>> = _gameList.asStateFlow()
+    val movieList: StateFlow<List<MovieEntity>> = repository.movies
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = emptyList()
+        )
 
-    private val _navigateToDetail = MutableStateFlow<Game?>(null)
-    val navigateToDetail: StateFlow<Game?> = _navigateToDetail.asStateFlow()
+    private val _refreshState = MutableStateFlow<NetworkResult<Unit>>(NetworkResult.Loading)
+    val refreshState: StateFlow<NetworkResult<Unit>> = _refreshState.asStateFlow()
 
-    private val _navigateToLink = MutableStateFlow<String?>(null)
-    val navigateToLink: StateFlow<String?> = _navigateToLink.asStateFlow()
+    private val _navigateToDetail = MutableStateFlow<MovieEntity?>(null)
+    val navigateToDetail: StateFlow<MovieEntity?> = _navigateToDetail.asStateFlow()
 
     init {
-        Timber.d("GALAT: HomeViewModel dibuat dengan label $appLabel")
-        loadGames(repository.getGames())
+        refreshMovies()
     }
 
-    fun loadGames(games: List<Game>) {
-        _gameList.value = games
-        val gameTitles = games.map { getApplication<Application>().getString(it.titleResourceId) }
-        Timber.d("GALAT: Item di-load sejumlah ${_gameList.value.size}: ${gameTitles}")
+    fun refreshMovies() {
+        viewModelScope.launch {
+            // Your lab guidelines mentioned an API Key is needed. 
+            // In a real app, this would be in a BuildConfig or local.properties.
+            // Using a placeholder here.
+            val apiKey = "00000000000000000000000000000000" 
+            repository.fetchAndCacheMovies(apiKey).collect { result ->
+                _refreshState.value = result
+            }
+        }
     }
 
-    fun onDetailClicked(game: Game) {
-        Timber.d("GALAT: Tombol Detail ditekan")
-        _navigateToDetail.value = game
+    fun onDetailClicked(movie: MovieEntity) {
+        _navigateToDetail.value = movie
     }
 
     fun onDetailNavigated() {
         _navigateToDetail.value = null
-    }
-
-    fun onLinkClicked(url: String) {
-        Timber.d("GALAT: Tombol explicit intent ditekan")
-        _navigateToLink.value = url
-    }
-
-    fun onLinkNavigated() {
-        _navigateToLink.value = null
     }
 }
