@@ -24,6 +24,17 @@ class SettingsFragment : PreferenceFragmentCompat() {
             AppCompatDelegate.setApplicationLocales(appLocale)
             true
         }
+
+        val themePreference = findPreference<ListPreference>("theme_mode")
+        themePreference?.setOnPreferenceChangeListener { _, newValue ->
+            val themeMode = when (newValue as String) {
+                "light" -> AppCompatDelegate.MODE_NIGHT_NO
+                "dark" -> AppCompatDelegate.MODE_NIGHT_YES
+                else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+            }
+            AppCompatDelegate.setDefaultNightMode(themeMode)
+            true
+        }
     }
 
     override fun onCreateView(

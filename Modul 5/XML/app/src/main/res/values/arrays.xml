@@ -7,4 +7,16 @@
         <item>en</item>
         <item>in</item>
     </string-array>
+
+    <string-array name="theme_entries">
+        <item>System Default</item>
+        <item>Light</item>
+        <item>Dark</item>
+    </string-array>
+
+    <string-array name="theme_values">
+        <item>default</item>
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
 </resources>

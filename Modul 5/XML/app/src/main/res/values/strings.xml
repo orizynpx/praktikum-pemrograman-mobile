@@ -82,5 +82,7 @@
     <string name="tv_genre_label">Genre:</string>
     <string name="pref_title_change_language">Change Language</string>
     <string name="pref_category_language_settings">Language Settings</string>
+    <string name="pref_title_theme_mode">Theme Mode</string>
+    <string name="pref_category_display_settings">Display Settings</string>
     <string name="title_settings">Settings</string>
 </resources>
