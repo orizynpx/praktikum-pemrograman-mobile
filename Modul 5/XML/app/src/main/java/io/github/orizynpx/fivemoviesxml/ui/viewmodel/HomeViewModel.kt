@@ -38,7 +38,14 @@ class HomeViewModel(
         viewModelScope.launch {
             val apiKey = BuildConfig.TMDB_API_KEY
             repository.fetchAndCacheMovies(apiKey).collect { result ->
-                _refreshState.value = result
+                // Offline-first behavior: Only report errors if the database is currently empty
+                if (result is NetworkResult.Error && !repository.isEmpty()) {
+                    Timber.d("GALAT: Network refresh failed but cache exists. Ignoring error for UI.")
+                    _refreshState.value = NetworkResult.Success(Unit) 
+                } else {
+                    _refreshState.value = result
+                }
+
                 if (result is NetworkResult.Success) {
                     val titles = movieList.value.joinToString { it.title }
                     Timber.d("GALAT: Item di-load sejumlah ${movieList.value.size}: $titles")

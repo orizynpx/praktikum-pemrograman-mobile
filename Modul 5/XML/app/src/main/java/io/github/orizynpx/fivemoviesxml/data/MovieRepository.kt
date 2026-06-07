@@ -5,6 +5,7 @@ import io.github.orizynpx.fivemoviesxml.data.local.entity.MovieEntity
 import io.github.orizynpx.fivemoviesxml.data.remote.ApiService
 import io.github.orizynpx.fivemoviesxml.data.remote.NetworkResult
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 
@@ -13,6 +14,8 @@ class MovieRepository(
     private val movieDao: MovieDao
 ) {
     val movies: Flow<List<MovieEntity>> = movieDao.getAllMovies()
+
+    suspend fun isEmpty(): Boolean = movies.first().isEmpty()
 
     suspend fun fetchAndCacheMovies(apiKey: String): Flow<NetworkResult<Unit>> = flow {
         emit(NetworkResult.Loading)
@@ -30,8 +33,13 @@ class MovieRepository(
                         releaseDate = dto.releaseDate
                     )
                 }
-                movieDao.clearMovies()
-                movieDao.insertMovies(movieEntities)
+                
+                // Non-destructive update: we clear and insert only if we have new data
+                // This prevents the "empty screen" flash during sync
+                if (movieEntities.isNotEmpty()) {
+                    movieDao.clearMovies()
+                    movieDao.insertMovies(movieEntities)
+                }
                 emit(NetworkResult.Success(Unit))
             } else {
                 emit(NetworkResult.Error("API Error: ${response.code()}"))

@@ -57,6 +57,10 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.action_homeFragment_to_settingsFragment)
         }
 
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.refreshMovies()
+        }
+
         if (listMovieAdapter == null || carouselMovieAdapter == null) {
             setupAdapters()
         }
@@ -106,9 +110,7 @@ class HomeFragment : Fragment() {
 
                 launch {
                     viewModel.refreshState.collect { result ->
-                        // Assuming FragmentHomeBinding has a ProgressBar with ID 'progressBar'
-                        // If not, we might need to add it or skip this specific visibility toggle.
-                        // binding.progressBar.isVisible = result is NetworkResult.Loading
+                        binding.swipeRefresh.isRefreshing = result is NetworkResult.Loading
                         
                         if (result is NetworkResult.Error) {
                             Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
