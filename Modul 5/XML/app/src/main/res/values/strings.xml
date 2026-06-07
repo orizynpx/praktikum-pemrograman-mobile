@@ -3,7 +3,6 @@
     <string name="year_2024" translatable="false">2024</string>
     <string name="year_2025" translatable="false">2025</string>
 
-    <!--Bullet Ant-->
     <string name="bullet_ant" translatable="false">Bullet Ant</string>
     <string name="bullet_ant_genre">Arcade, Casual</string>
     <string name="bullet_ant_detail">
@@ -15,7 +14,6 @@
     </string>
     <string name="bullet_ant_url" translatable="false">https://jnathan.itch.io/bullet-ant</string>
 
-    <!--Wizard-->
     <string name="wizard" translatable="false">Revived by My Own Magic: The Wizard Who Came Back from the Dead Because His Useless Party Couldn\'t Resurrect Him</string>
     <string name="wizard_genre">Puzzle</string>
     <string name="wizard_detail">
@@ -25,7 +23,6 @@
     </string>
     <string name="wizard_url" translatable="false">https://gunturadhtya.itch.io/revived-by-my-own-magic-the-wizard-who-came-back-from-the-dead-because-his-usele</string>
 
-    <!--AMMID-->
     <string name="ammid" translatable="false">A Match Made in Dungeon</string>
     <string name="ammid_genre">Roguelike Deckbuilder</string>
     <string name="ammid_detail">
@@ -44,7 +41,6 @@
     </string>
     <string name="ammid_url" translatable="false">https://wasakagames.itch.io/a-match-made-in-dungeon</string>
 
-    <!--R*bert-->
     <string name="robert" translatable="false">R*bert</string>
     <string name="robert_genre">Arcade, Rhythm</string>
     <string name="robert_detail">
@@ -60,7 +56,6 @@
     </string>
     <string name="robert_url" translatable="false">https://wasakagames.itch.io/rhythm-qubert</string>
 
-    <!--Personal Space-->
     <string name="personal_space" translatable="false">Personal Space</string>
     <string name="personal_space_genre">Puzzle, Story-Driven</string>
     <string name="personal_space_detail">

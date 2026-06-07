@@ -84,7 +84,6 @@ class HomeFragment : Fragment() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerInterval.adapter = adapter
 
-        // Set initial selection to "Weekly" (index 1)
         binding.spinnerInterval.setSelection(1, false)
 
         binding.spinnerInterval.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

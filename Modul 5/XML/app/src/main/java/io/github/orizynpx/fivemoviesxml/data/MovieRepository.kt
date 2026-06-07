@@ -70,8 +70,6 @@ class MovieRepository(
                     )
                 }
                 
-                // Non-destructive update: we clear and insert only if we have new data
-                // This prevents the "empty screen" flash during sync
                 if (movieEntities.isNotEmpty()) {
                     movieDao.clearMovies()
                     movieDao.insertMovies(movieEntities)

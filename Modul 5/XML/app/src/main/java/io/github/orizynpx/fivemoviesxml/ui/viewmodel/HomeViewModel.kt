@@ -44,7 +44,7 @@ class HomeViewModel(
     fun setTimeInterval(interval: String) {
         if (_timeInterval.value != interval) {
             _timeInterval.value = interval
-            _listLimit.value = 5 // Reset limit on interval change
+            _listLimit.value = 5
             refreshMovies()
         }
     }
@@ -58,11 +58,10 @@ class HomeViewModel(
     fun refreshMovies() {
         viewModelScope.launch {
             val apiKey = BuildConfig.TMDB_API_KEY
-            // Mapping UI strings to TMDB API windows
             val apiWindow = when (_timeInterval.value) {
                 "day" -> "day"
                 "week" -> "week"
-                else -> "all" // "all" maps to general popular in repository
+                else -> "all"
             }
             
             repository.fetchTrendingMovies(apiKey, apiWindow).collect { result ->
