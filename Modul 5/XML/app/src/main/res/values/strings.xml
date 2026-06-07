@@ -76,8 +76,9 @@
     <string name="personal_space_url" translatable="false">https://orizyn.itch.io/personal-space</string>
 
     <string name="tv_highlight">Highlight</string>
-    <string name="tv_movie_list">List of Movies</string>
+    <string name="tv_movie_list">Popular Movies</string>
     <string name="btn_detail">Detail</string>
+    <string name="btn_load_more">Load More</string>
     <string name="btn_link">Go to Itch.io</string>
     <string name="tv_genre_label">Genre:</string>
     <string name="pref_title_change_language">Change Language</string>

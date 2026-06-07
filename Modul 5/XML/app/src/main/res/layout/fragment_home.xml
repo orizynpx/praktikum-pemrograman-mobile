@@ -59,10 +59,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="16dp"
+                android:paddingHorizontal="16dp"
+                android:paddingTop="16dp"
                 android:text="@string/tv_movie_list"
                 android:textSize="20sp"
                 android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinner_interval"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="12dp"
+                android:padding="8dp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_movie_list"
@@ -70,6 +78,15 @@
                 android:layout_height="wrap_content"
                 android:nestedScrollingEnabled="false"
                 tools:listitem="@layout/item_movie_list" />
+
+            <Button
+                android:id="@+id/btn_load_more"
+                style="?attr/materialButtonOutlinedStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="8dp"
+                android:text="@string/btn_load_more" />
 
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>

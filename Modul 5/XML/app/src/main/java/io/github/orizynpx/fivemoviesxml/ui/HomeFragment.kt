@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -61,6 +63,12 @@ class HomeFragment : Fragment() {
             viewModel.refreshMovies()
         }
 
+        binding.btnLoadMore.setOnClickListener {
+            viewModel.loadMore()
+        }
+
+        setupIntervalSpinner()
+
         if (listMovieAdapter == null || carouselMovieAdapter == null) {
             setupAdapters()
         }
@@ -68,6 +76,24 @@ class HomeFragment : Fragment() {
         setupRecyclerViews()
 
         observeViewModel()
+    }
+
+    private fun setupIntervalSpinner() {
+        val intervals = resources.getStringArray(R.array.interval_entries)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, intervals)
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerInterval.adapter = adapter
+
+        // Set initial selection to "Weekly" (index 1)
+        binding.spinnerInterval.setSelection(1, false)
+
+        binding.spinnerInterval.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                val values = resources.getStringArray(R.array.interval_values)
+                viewModel.setTimeInterval(values[position])
+            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
+        }
     }
 
     private fun setupAdapters() {
@@ -102,9 +128,20 @@ class HomeFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
 
                 launch {
-                    viewModel.movieList.collect { movies ->
+                    viewModel.listMovies.collect { movies ->
                         listMovieAdapter?.submitList(movies)
+                    }
+                }
+
+                launch {
+                    viewModel.carouselMovies.collect { movies ->
                         carouselMovieAdapter?.submitList(movies)
+                    }
+                }
+
+                launch {
+                    viewModel.listLimit.collect { limit ->
+                        binding.btnLoadMore.isVisible = limit < 20
                     }
                 }
 

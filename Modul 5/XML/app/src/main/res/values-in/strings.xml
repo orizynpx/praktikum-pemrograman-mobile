@@ -54,8 +54,9 @@
         \n- Sebastian Abe Santoso (bentoso): Level Designer/Artist
     </string>
     <string name="tv_highlight">Sorotan</string>
-    <string name="tv_movie_list">Daftar Film</string>
+    <string name="tv_movie_list">Film Populer</string>
     <string name="btn_detail">Detail</string>
+    <string name="btn_load_more">Muat Lebih Banyak</string>
     <string name="btn_link">Kunjungi Itch.io</string>
     <string name="tv_genre_label">Genre:</string>
     <string name="pref_title_change_language">Ubah Bahasa</string>

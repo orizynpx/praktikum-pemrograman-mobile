@@ -16,12 +16,19 @@ class HomeViewModel(
     private val repository: MovieRepository
 ) : AndroidViewModel(application) {
 
-    val movieList: StateFlow<List<MovieEntity>> = repository.movies
-        .stateIn(
-            scope = viewModelScope,
-            started = SharingStarted.WhileSubscribed(5000),
-            initialValue = emptyList()
-        )
+    private val _timeInterval = MutableStateFlow("week")
+    val timeInterval: StateFlow<String> = _timeInterval.asStateFlow()
+
+    private val _listLimit = MutableStateFlow(5)
+    val listLimit: StateFlow<Int> = _listLimit.asStateFlow()
+
+    val carouselMovies: StateFlow<List<MovieEntity>> = repository.movies
+        .map { movies -> movies.take(5) }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    val listMovies: StateFlow<List<MovieEntity>> = combine(repository.movies, _listLimit) { movies, limit ->
+        movies.take(limit)
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private val _refreshState = MutableStateFlow<NetworkResult<Unit>>(NetworkResult.Loading)
     val refreshState: StateFlow<NetworkResult<Unit>> = _refreshState.asStateFlow()
@@ -34,21 +41,41 @@ class HomeViewModel(
         refreshMovies()
     }
 
+    fun setTimeInterval(interval: String) {
+        if (_timeInterval.value != interval) {
+            _timeInterval.value = interval
+            _listLimit.value = 5 // Reset limit on interval change
+            refreshMovies()
+        }
+    }
+
+    fun loadMore() {
+        if (_listLimit.value < 20) {
+            _listLimit.value = (_listLimit.value + 5).coerceAtMost(20)
+        }
+    }
+
     fun refreshMovies() {
         viewModelScope.launch {
             val apiKey = BuildConfig.TMDB_API_KEY
-            repository.fetchAndCacheMovies(apiKey).collect { result ->
-                // Offline-first behavior: Only report errors if the database is currently empty
+            // Mapping UI strings to TMDB API windows
+            val apiWindow = when (_timeInterval.value) {
+                "day" -> "day"
+                "week" -> "week"
+                else -> "all" // "all" maps to general popular in repository
+            }
+            
+            repository.fetchTrendingMovies(apiKey, apiWindow).collect { result ->
                 if (result is NetworkResult.Error && !repository.isEmpty()) {
                     Timber.d("GALAT: Network refresh failed but cache exists. Ignoring error for UI.")
                     _refreshState.value = NetworkResult.Success(Unit) 
                 } else {
                     _refreshState.value = result
                 }
-
+                
                 if (result is NetworkResult.Success) {
-                    val titles = movieList.value.joinToString { it.title }
-                    Timber.d("GALAT: Item di-load sejumlah ${movieList.value.size}: $titles")
+                    val titles = listMovies.value.joinToString { it.title }
+                    Timber.d("GALAT: Item di-load sejumlah ${listMovies.value.size}: $titles")
                 }
             }
         }
