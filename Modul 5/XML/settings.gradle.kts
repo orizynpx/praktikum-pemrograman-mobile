@@ -23,5 +23,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Five Games XML"
+rootProject.name = "Five Movies XML"
 include(":app")

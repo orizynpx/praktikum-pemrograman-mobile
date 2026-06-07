@@ -14,11 +14,11 @@ if (localPropertiesFile.exists()) {
 val tmdbApiKey: String = localProperties.getProperty("TMDB_API_KEY") ?: "00000000000000000000000000000000"
 
 android {
-    namespace = "io.github.orizynpx.fivegamesxml"
+    namespace = "io.github.orizynpx.fivemoviesxml"
     compileSdk = 37
 
     defaultConfig {
-        applicationId = "io.github.orizynpx.fivegamesxml"
+        applicationId = "io.github.orizynpx.fivemoviesxml"
         minSdk = 24
         targetSdk = 37
         versionCode = 1
