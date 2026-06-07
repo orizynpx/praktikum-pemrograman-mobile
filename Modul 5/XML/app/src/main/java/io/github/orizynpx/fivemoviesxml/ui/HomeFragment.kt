@@ -147,7 +147,9 @@ class HomeFragment : Fragment() {
 
                 launch {
                     viewModel.refreshState.collect { result ->
-                        binding.swipeRefresh.isRefreshing = result is NetworkResult.Loading
+                        val isLoading = result is NetworkResult.Loading
+                        binding.swipeRefresh.isRefreshing = isLoading
+                        binding.progressBar.isVisible = isLoading
                         
                         if (result is NetworkResult.Error) {
                             Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
