@@ -9,6 +9,7 @@ import io.github.orizynpx.fivemoviesxml.data.local.entity.MovieEntity
 import io.github.orizynpx.fivemoviesxml.data.remote.NetworkResult
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class HomeViewModel(
     application: Application,
@@ -29,6 +30,7 @@ class HomeViewModel(
     val navigateToDetail: StateFlow<MovieEntity?> = _navigateToDetail.asStateFlow()
 
     init {
+        Timber.d("GALAT: HomeViewModel dibuat")
         refreshMovies()
     }
 
@@ -37,11 +39,16 @@ class HomeViewModel(
             val apiKey = BuildConfig.TMDB_API_KEY
             repository.fetchAndCacheMovies(apiKey).collect { result ->
                 _refreshState.value = result
+                if (result is NetworkResult.Success) {
+                    val titles = movieList.value.joinToString { it.title }
+                    Timber.d("GALAT: Item di-load sejumlah ${movieList.value.size}: $titles")
+                }
             }
         }
     }
 
     fun onDetailClicked(movie: MovieEntity) {
+        Timber.d("GALAT: Tombol Detail ditekan")
         _navigateToDetail.value = movie
     }
 

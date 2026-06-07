@@ -26,6 +26,7 @@ import io.github.orizynpx.fivemoviesxml.ui.adapter.ListMovieAdapter
 import io.github.orizynpx.fivemoviesxml.ui.viewmodel.HomeViewModel
 import io.github.orizynpx.fivemoviesxml.ui.viewmodel.HomeViewModelFactory
 import kotlinx.coroutines.launch
+import timber.log.Timber
 
 class HomeFragment : Fragment() {
 
@@ -118,6 +119,7 @@ class HomeFragment : Fragment() {
                 launch {
                     viewModel.navigateToDetail.collect { movie ->
                         movie?.let {
+                            Timber.d("GALAT: Navigasi ke halaman Detail dengan membawa data berupa $it)")
                             navigateToDetail(it.id)
                             viewModel.onDetailNavigated()
                         }
