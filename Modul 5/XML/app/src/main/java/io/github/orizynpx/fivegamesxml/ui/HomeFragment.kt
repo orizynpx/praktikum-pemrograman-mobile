@@ -128,7 +128,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun navigateToDetail(movieId: Int) {
-        val bundle = Bundle().apply { putInt("movieId", movieId) }
+        val bundle = Bundle().apply { putInt("gameId", movieId) }
         findNavController().navigate(R.id.action_homeFragment_to_detailFragment, bundle)
     }
 

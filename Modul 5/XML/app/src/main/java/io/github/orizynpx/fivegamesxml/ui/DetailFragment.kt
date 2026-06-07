@@ -28,7 +28,7 @@ class DetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val movieId = arguments?.getInt("movieId") ?: -1
+        val movieId = arguments?.getInt("gameId") ?: -1
         
         binding.toolbarDetail.setNavigationOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()

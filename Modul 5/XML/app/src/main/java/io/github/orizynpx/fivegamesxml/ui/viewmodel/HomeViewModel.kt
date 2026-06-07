@@ -3,6 +3,7 @@ package io.github.orizynpx.fivegamesxml.ui.viewmodel
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
+import io.github.orizynpx.fivegamesxml.BuildConfig
 import io.github.orizynpx.fivegamesxml.data.MovieRepository
 import io.github.orizynpx.fivegamesxml.data.local.entity.MovieEntity
 import io.github.orizynpx.fivegamesxml.data.remote.NetworkResult
@@ -34,10 +35,7 @@ class HomeViewModel(
 
     fun refreshMovies() {
         viewModelScope.launch {
-            // Your lab guidelines mentioned an API Key is needed. 
-            // In a real app, this would be in a BuildConfig or local.properties.
-            // Using a placeholder here.
-            val apiKey = "00000000000000000000000000000000" 
+            val apiKey = BuildConfig.TMDB_API_KEY
             repository.fetchAndCacheMovies(apiKey).collect { result ->
                 _refreshState.value = result
             }
