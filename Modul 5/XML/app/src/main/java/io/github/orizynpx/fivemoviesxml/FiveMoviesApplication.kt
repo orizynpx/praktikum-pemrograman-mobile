@@ -1,6 +1,8 @@
 package io.github.orizynpx.fivemoviesxml
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
+import androidx.preference.PreferenceManager
 import coil3.ImageLoader
 import coil3.SingletonImageLoader
 import coil3.network.okhttp.OkHttpNetworkFetcherFactory
@@ -16,12 +18,23 @@ class FiveMoviesApplication : Application(), SingletonImageLoader.Factory {
 
     override fun newImageLoader(context: android.content.Context): ImageLoader {
         return ImageLoader.Builder(context).components {
-                add(OkHttpNetworkFetcherFactory())
-            }.build()
+            add(OkHttpNetworkFetcherFactory())
+        }.build()
     }
 
     override fun onCreate() {
         super.onCreate()
         Timber.plant(Timber.DebugTree())
+        applySavedTheme()
+    }
+
+    private fun applySavedTheme() {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(this)
+        val themeMode = when (prefs.getString("theme_mode", "default")) {
+            "light" -> AppCompatDelegate.MODE_NIGHT_NO
+            "dark" -> AppCompatDelegate.MODE_NIGHT_YES
+            else -> AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM
+        }
+        AppCompatDelegate.setDefaultNightMode(themeMode)
     }
 }
