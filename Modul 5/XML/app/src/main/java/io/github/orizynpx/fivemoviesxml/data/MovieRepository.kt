@@ -17,35 +17,68 @@ class MovieRepository(
 
     suspend fun isEmpty(): Boolean = movies.first().isEmpty()
 
-    suspend fun fetchTrendingMovies(apiKey: String, timeWindow: String): Flow<NetworkResult<Unit>> = flow {
+    suspend fun fetchTrendingMovies(
+        apiKey: String,
+        timeWindow: String,
+        language: String = "en-US"
+    ): Flow<NetworkResult<Unit>> = flow {
         emit(NetworkResult.Loading)
         try {
-            val response = if (timeWindow == "all") {
-                apiService.getPopularMovies(apiKey)
+            val responseEn = if (timeWindow == "all") {
+                apiService.getPopularMovies(apiKey, "en-US")
             } else {
-                apiService.getTrendingMovies(timeWindow, apiKey)
+                apiService.getTrendingMovies(timeWindow, apiKey, "en-US")
             }
-            
-            if (response.isSuccessful) {
-                val movieDtos = response.body()?.movies ?: emptyList()
-                val movieEntities = movieDtos.map { dto ->
-                    MovieEntity(
-                        id = dto.id,
-                        title = dto.title,
-                        overview = dto.overview,
-                        posterPath = dto.posterPath,
-                        backdropPath = dto.backdropPath,
-                        releaseDate = dto.releaseDate
-                    )
-                }
+
+            if (responseEn.isSuccessful) {
+                val movieDtosEn = responseEn.body()?.movies ?: emptyList()
                 
-                if (movieEntities.isNotEmpty()) {
+                val finalMovieEntities = if (language == "en-US") {
+                    movieDtosEn.map { dto ->
+                        MovieEntity(
+                            id = dto.id,
+                            title = dto.title,
+                            overview = dto.overview,
+                            posterPath = dto.posterPath,
+                            backdropPath = dto.backdropPath,
+                            releaseDate = dto.releaseDate
+                        )
+                    }
+                } else {
+                    val responseLocalized = if (timeWindow == "all") {
+                        apiService.getPopularMovies(apiKey, language)
+                    } else {
+                        apiService.getTrendingMovies(timeWindow, apiKey, language)
+                    }
+
+                    val movieDtosLocalized = if (responseLocalized.isSuccessful) {
+                        responseLocalized.body()?.movies ?: emptyList()
+                    } else {
+                        emptyList()
+                    }
+
+                    movieDtosEn.map { dtoEn ->
+                        val localizedDto = movieDtosLocalized.find { it.id == dtoEn.id }
+                        val localizedOverview = localizedDto?.overview
+                        
+                        MovieEntity(
+                            id = dtoEn.id,
+                            title = dtoEn.title,
+                            overview = if (!localizedOverview.isNullOrBlank()) localizedOverview else dtoEn.overview,
+                            posterPath = dtoEn.posterPath,
+                            backdropPath = dtoEn.backdropPath,
+                            releaseDate = dtoEn.releaseDate
+                        )
+                    }
+                }
+
+                if (finalMovieEntities.isNotEmpty()) {
                     movieDao.clearMovies()
-                    movieDao.insertMovies(movieEntities)
+                    movieDao.insertMovies(finalMovieEntities)
                 }
                 emit(NetworkResult.Success(Unit))
             } else {
-                emit(NetworkResult.Error("API Error: ${response.code()}"))
+                emit(NetworkResult.Error("API Error: ${responseEn.code()}"))
             }
         } catch (e: Exception) {
             Timber.e(e, "Error fetching trending movies")
@@ -54,33 +87,6 @@ class MovieRepository(
     }
 
     suspend fun fetchAndCacheMovies(apiKey: String): Flow<NetworkResult<Unit>> = flow {
-        emit(NetworkResult.Loading)
-        try {
-            val response = apiService.getPopularMovies(apiKey)
-            if (response.isSuccessful) {
-                val movieDtos = response.body()?.movies ?: emptyList()
-                val movieEntities = movieDtos.map { dto ->
-                    MovieEntity(
-                        id = dto.id,
-                        title = dto.title,
-                        overview = dto.overview,
-                        posterPath = dto.posterPath,
-                        backdropPath = dto.backdropPath,
-                        releaseDate = dto.releaseDate
-                    )
-                }
-                
-                if (movieEntities.isNotEmpty()) {
-                    movieDao.clearMovies()
-                    movieDao.insertMovies(movieEntities)
-                }
-                emit(NetworkResult.Success(Unit))
-            } else {
-                emit(NetworkResult.Error("API Error: ${response.code()}"))
-            }
-        } catch (e: Exception) {
-            Timber.e(e, "Error fetching movies")
-            emit(NetworkResult.Error("Network Error: ${e.message}", e))
-        }
+        fetchTrendingMovies(apiKey, "week").collect { emit(it) }
     }
 }

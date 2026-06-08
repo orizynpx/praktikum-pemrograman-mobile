@@ -1,6 +1,7 @@
 package io.github.orizynpx.fivemoviesxml.ui.viewmodel
 
 import android.app.Application
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.orizynpx.fivemoviesxml.BuildConfig
@@ -64,7 +65,10 @@ class HomeViewModel(
                 else -> "all"
             }
             
-            repository.fetchTrendingMovies(apiKey, apiWindow).collect { result ->
+            val appLanguage = AppCompatDelegate.getApplicationLocales()[0]?.language ?: "en"
+            val apiLanguage = if (appLanguage == "in") "id-ID" else "en-US"
+            
+            repository.fetchTrendingMovies(apiKey, apiWindow, apiLanguage).collect { result ->
                 if (result is NetworkResult.Error && !repository.isEmpty()) {
                     Timber.d("GALAT: Network refresh failed but cache exists. Ignoring error for UI.")
                     _refreshState.value = NetworkResult.Success(Unit) 
