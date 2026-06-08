@@ -10,17 +10,14 @@ import kotlinx.coroutines.flow.flow
 import timber.log.Timber
 
 class MovieRepository(
-    private val apiService: ApiService,
-    private val movieDao: MovieDao
+    private val apiService: ApiService, private val movieDao: MovieDao
 ) {
     val movies: Flow<List<MovieEntity>> = movieDao.getAllMovies()
 
     suspend fun isEmpty(): Boolean = movies.first().isEmpty()
 
     suspend fun fetchTrendingMovies(
-        apiKey: String,
-        timeWindow: String,
-        language: String = "en-US"
+        apiKey: String, timeWindow: String, language: String = "en-US"
     ): Flow<NetworkResult<Unit>> = flow {
         emit(NetworkResult.Loading)
         try {
@@ -32,7 +29,7 @@ class MovieRepository(
 
             if (responseEn.isSuccessful) {
                 val movieDtosEn = responseEn.body()?.movies ?: emptyList()
-                
+
                 val finalMovieEntities = if (language == "en-US") {
                     movieDtosEn.map { dto ->
                         MovieEntity(
@@ -60,7 +57,7 @@ class MovieRepository(
                     movieDtosEn.map { dtoEn ->
                         val localizedDto = movieDtosLocalized.find { it.id == dtoEn.id }
                         val localizedOverview = localizedDto?.overview
-                        
+
                         MovieEntity(
                             id = dtoEn.id,
                             title = dtoEn.title,

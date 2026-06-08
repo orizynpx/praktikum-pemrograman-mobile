@@ -44,9 +44,7 @@ class HomeFragment : Fragment() {
     private var carouselMovieAdapter: CarouselMovieAdapter? = null
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -80,25 +78,32 @@ class HomeFragment : Fragment() {
 
     private fun setupIntervalSpinner() {
         val intervals = resources.getStringArray(R.array.interval_entries)
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, intervals)
+        val adapter =
+            ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, intervals)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.spinnerInterval.adapter = adapter
 
         binding.spinnerInterval.setSelection(1, false)
 
-        binding.spinnerInterval.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                val values = resources.getStringArray(R.array.interval_values)
-                viewModel.setTimeInterval(values[position])
+        binding.spinnerInterval.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    val values = resources.getStringArray(R.array.interval_values)
+                    viewModel.setTimeInterval(values[position])
+                }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
     }
 
     private fun setupAdapters() {
         listMovieAdapter = ListMovieAdapter(
-            onDetailClick = { movie -> viewModel.onDetailClicked(movie) }
-        )
+            onDetailClick = { movie -> viewModel.onDetailClicked(movie) })
         listMovieAdapter?.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
@@ -149,9 +154,10 @@ class HomeFragment : Fragment() {
                         val isLoading = result is NetworkResult.Loading
                         binding.swipeRefresh.isRefreshing = isLoading
                         binding.progressBar.isVisible = isLoading
-                        
+
                         if (result is NetworkResult.Error) {
-                            Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT).show()
+                            Toast.makeText(requireContext(), result.message, Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
                 }

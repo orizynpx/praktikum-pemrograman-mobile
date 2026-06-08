@@ -15,10 +15,8 @@ object NetworkClient {
 
     private val retrofit: Retrofit by lazy {
         val contentType = "application/json".toMediaType()
-        Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .addConverterFactory(json.asConverterFactory(contentType))
-            .build()
+        Retrofit.Builder().baseUrl(BASE_URL)
+            .addConverterFactory(json.asConverterFactory(contentType)).build()
     }
 
     val apiService: ApiService by lazy {

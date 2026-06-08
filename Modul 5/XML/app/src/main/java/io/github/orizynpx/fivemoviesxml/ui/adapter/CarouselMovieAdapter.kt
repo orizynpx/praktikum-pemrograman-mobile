@@ -17,18 +17,22 @@ class CarouselMovieAdapter(private val onClick: (MovieEntity) -> Unit) :
     class ViewHolder(val binding: ItemMovieCarouselBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        return ViewHolder(ItemMovieCarouselBinding.inflate(LayoutInflater.from(parent.context), parent, false))
+        return ViewHolder(
+            ItemMovieCarouselBinding.inflate(
+                LayoutInflater.from(parent.context), parent, false
+            )
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val movie = getItem(position)
         val imageUrl = movie.backdropPath?.let { "https://image.tmdb.org/t/p/w780$it" }
-        
+
         holder.binding.imgCarousel.load(imageUrl) {
             crossfade(true)
             placeholder(R.drawable.ic_launcher_background)
         }
-        
+
         holder.binding.imgCarousel.setOnClickListener {
             onClick(movie)
         }

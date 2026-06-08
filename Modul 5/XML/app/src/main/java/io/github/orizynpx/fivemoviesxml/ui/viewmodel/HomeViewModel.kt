@@ -13,8 +13,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 
 class HomeViewModel(
-    application: Application,
-    private val repository: MovieRepository
+    application: Application, private val repository: MovieRepository
 ) : AndroidViewModel(application) {
 
     private val _timeInterval = MutableStateFlow("week")
@@ -23,13 +22,14 @@ class HomeViewModel(
     private val _listLimit = MutableStateFlow(5)
     val listLimit: StateFlow<Int> = _listLimit.asStateFlow()
 
-    val carouselMovies: StateFlow<List<MovieEntity>> = repository.movies
-        .map { movies -> movies.take(5) }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    val carouselMovies: StateFlow<List<MovieEntity>> =
+        repository.movies.map { movies -> movies.take(5) }
+            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    val listMovies: StateFlow<List<MovieEntity>> = combine(repository.movies, _listLimit) { movies, limit ->
-        movies.take(limit)
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+    val listMovies: StateFlow<List<MovieEntity>> =
+        combine(repository.movies, _listLimit) { movies, limit ->
+            movies.take(limit)
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     private val _refreshState = MutableStateFlow<NetworkResult<Unit>>(NetworkResult.Loading)
     val refreshState: StateFlow<NetworkResult<Unit>> = _refreshState.asStateFlow()
@@ -64,18 +64,18 @@ class HomeViewModel(
                 "week" -> "week"
                 else -> "all"
             }
-            
+
             val appLanguage = AppCompatDelegate.getApplicationLocales()[0]?.language ?: "en"
             val apiLanguage = if (appLanguage == "in") "id-ID" else "en-US"
-            
+
             repository.fetchTrendingMovies(apiKey, apiWindow, apiLanguage).collect { result ->
                 if (result is NetworkResult.Error && !repository.isEmpty()) {
                     Timber.d("GALAT: Network refresh failed but cache exists. Ignoring error for UI.")
-                    _refreshState.value = NetworkResult.Success(Unit) 
+                    _refreshState.value = NetworkResult.Success(Unit)
                 } else {
                     _refreshState.value = result
                 }
-                
+
                 if (result is NetworkResult.Success) {
                     val titles = listMovies.value.joinToString { it.title }
                     Timber.d("GALAT: Item di-load sejumlah ${listMovies.value.size}: $titles")

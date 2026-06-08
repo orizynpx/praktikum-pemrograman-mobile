@@ -6,12 +6,10 @@ import androidx.lifecycle.ViewModelProvider
 import io.github.orizynpx.fivemoviesxml.data.MovieRepository
 
 class HomeViewModelFactory(
-    private val application: Application,
-    private val repository: MovieRepository
+    private val application: Application, private val repository: MovieRepository
 ) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        @Suppress("UNCHECKED_CAST")
-        if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
+        @Suppress("UNCHECKED_CAST") if (modelClass.isAssignableFrom(HomeViewModel::class.java)) {
             return HomeViewModel(application, repository) as T
         }
         throw IllegalArgumentException("Unknown ViewModel class")

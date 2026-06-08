@@ -18,8 +18,7 @@ class DetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentDetailBinding.inflate(inflater, container, false)
         return binding.root
@@ -29,7 +28,7 @@ class DetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val movieId = arguments?.getInt("movieId") ?: -1
-        
+
         binding.toolbarDetail.setNavigationOnClickListener {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
@@ -41,7 +40,7 @@ class DetailFragment : Fragment() {
             movie?.let {
                 binding.tvDetailTitle.text = it.title
                 binding.tvDetailDescription.text = it.overview
-                
+
                 val path = it.backdropPath ?: it.posterPath
                 val imageUrl = path?.let { p -> "https://image.tmdb.org/t/p/w780$p" }
                 binding.imgDetail.load(imageUrl)

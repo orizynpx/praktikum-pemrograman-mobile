@@ -15,11 +15,9 @@ class FiveMoviesApplication : Application(), SingletonImageLoader.Factory {
     val repository: MovieRepository by lazy { MovieRepository(apiService, database.movieDao()) }
 
     override fun newImageLoader(context: android.content.Context): ImageLoader {
-        return ImageLoader.Builder(context)
-            .components {
+        return ImageLoader.Builder(context).components {
                 add(OkHttpNetworkFetcherFactory())
-            }
-            .build()
+            }.build()
     }
 
     override fun onCreate() {
