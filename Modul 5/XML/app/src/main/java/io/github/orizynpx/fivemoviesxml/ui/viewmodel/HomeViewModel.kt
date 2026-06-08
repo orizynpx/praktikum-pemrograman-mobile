@@ -24,12 +24,12 @@ class HomeViewModel(
 
     val carouselMovies: StateFlow<List<MovieEntity>> =
         repository.movies.map { movies -> movies.take(5) }
-            .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+            .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     val listMovies: StateFlow<List<MovieEntity>> =
         combine(repository.movies, _listLimit) { movies, limit ->
             movies.take(limit)
-        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+        }.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     private val _refreshState = MutableStateFlow<NetworkResult<Unit>>(NetworkResult.Loading)
     val refreshState: StateFlow<NetworkResult<Unit>> = _refreshState.asStateFlow()

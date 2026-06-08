@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import io.github.orizynpx.fivemoviesxml.data.local.entity.MovieEntity
 import kotlinx.coroutines.flow.Flow
 
@@ -17,4 +18,10 @@ interface MovieDao {
 
     @Query("DELETE FROM movies")
     suspend fun clearMovies()
+
+    @Transaction
+    suspend fun refreshMovies(movies: List<MovieEntity>) {
+        clearMovies()
+        insertMovies(movies)
+    }
 }

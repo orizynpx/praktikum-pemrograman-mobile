@@ -70,8 +70,7 @@ class MovieRepository(
                 }
 
                 if (finalMovieEntities.isNotEmpty()) {
-                    movieDao.clearMovies()
-                    movieDao.insertMovies(finalMovieEntities)
+                    movieDao.refreshMovies(finalMovieEntities)
                 }
                 emit(NetworkResult.Success(Unit))
             } else {
