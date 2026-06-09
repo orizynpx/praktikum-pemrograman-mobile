@@ -68,8 +68,6 @@ class HomeFragment : Fragment() {
             viewModel.loadMore()
         }
 
-        setupIntervalSpinner()
-
         if (listMovieAdapter == null || carouselMovieAdapter == null) {
             setupAdapters()
         }
@@ -77,6 +75,8 @@ class HomeFragment : Fragment() {
         setupRecyclerViews()
 
         observeViewModel()
+
+        setupIntervalSpinner()
     }
 
     private fun setupIntervalSpinner() {
