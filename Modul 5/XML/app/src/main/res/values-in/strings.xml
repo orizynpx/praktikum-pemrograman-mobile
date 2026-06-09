@@ -57,7 +57,7 @@
     <string name="tv_movie_list">Film Populer</string>
     <string name="btn_detail">Detail</string>
     <string name="btn_load_more">Muat Lebih Banyak</string>
-    <string name="btn_link">Kunjungi Itch.io</string>
+    <string name="btn_link">TMDB</string>
     <string name="tv_genre_label">Genre:</string>
     <string name="pref_title_change_language">Ubah Bahasa</string>
     <string name="pref_category_language_settings">Pengaturan Bahasa</string>

@@ -1,5 +1,7 @@
 package io.github.orizynpx.fivemoviesxml.ui
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +23,7 @@ import com.google.android.material.carousel.CarouselLayoutManager
 import com.google.android.material.carousel.CarouselSnapHelper
 import com.google.android.material.carousel.HeroCarouselStrategy
 import io.github.orizynpx.fivemoviesxml.FiveMoviesApplication
+import io.github.orizynpx.fivemoviesxml.data.local.entity.MovieEntity
 import io.github.orizynpx.fivemoviesxml.data.remote.NetworkResult
 import io.github.orizynpx.fivemoviesxml.databinding.FragmentHomeBinding
 import io.github.orizynpx.fivemoviesxml.ui.adapter.CarouselMovieAdapter
@@ -103,13 +106,26 @@ class HomeFragment : Fragment() {
 
     private fun setupAdapters() {
         listMovieAdapter = ListMovieAdapter(
-            onDetailClick = { movie -> viewModel.onDetailClicked(movie) })
+            onDetailClick = { movie -> viewModel.onDetailClicked(movie) },
+            onLinkClick = { movie -> openTmdbUrl(movie) }
+        )
         listMovieAdapter?.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
 
         carouselMovieAdapter = CarouselMovieAdapter { movie -> viewModel.onDetailClicked(movie) }
         carouselMovieAdapter?.stateRestorationPolicy =
             RecyclerView.Adapter.StateRestorationPolicy.PREVENT_WHEN_EMPTY
+    }
+
+    private fun openTmdbUrl(movie: MovieEntity) {
+        viewModel.onLinkClicked(movie)
+        val url = "https://www.themoviedb.org/movie/${movie.id}"
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
+        try {
+            startActivity(intent)
+        } catch (e: Exception) {
+            Toast.makeText(requireContext(), "No browser found", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun setupRecyclerViews() {

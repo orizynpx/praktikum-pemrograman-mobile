@@ -74,7 +74,7 @@
     <string name="tv_movie_list">Popular Movies</string>
     <string name="btn_detail">Detail</string>
     <string name="btn_load_more">Load More</string>
-    <string name="btn_link">Go to Itch.io</string>
+    <string name="btn_link">TMDB</string>
     <string name="tv_genre_label">Genre:</string>
     <string name="pref_title_change_language">Change Language</string>
     <string name="pref_category_language_settings">Language Settings</string>

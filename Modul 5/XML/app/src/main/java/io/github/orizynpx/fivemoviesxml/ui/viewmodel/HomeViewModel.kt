@@ -89,6 +89,10 @@ class HomeViewModel(
         _navigateToDetail.value = movie
     }
 
+    fun onLinkClicked(movie: MovieEntity) {
+        Timber.d("GALAT: Tombol implicit intent ditekan")
+    }
+
     fun onDetailNavigated() {
         _navigateToDetail.value = null
     }

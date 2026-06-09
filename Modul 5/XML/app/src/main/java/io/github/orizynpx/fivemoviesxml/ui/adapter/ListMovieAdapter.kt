@@ -14,13 +14,18 @@ import io.github.orizynpx.fivemoviesxml.data.local.entity.MovieEntity
 import io.github.orizynpx.fivemoviesxml.databinding.ItemMovieListBinding
 
 class ListMovieAdapter(
-    private val onDetailClick: (MovieEntity) -> Unit
+    private val onDetailClick: (MovieEntity) -> Unit,
+    private val onLinkClick: (MovieEntity) -> Unit
 ) : ListAdapter<MovieEntity, ListMovieAdapter.MovieViewHolder>(DiffCallback) {
 
     class MovieViewHolder(private val binding: ItemMovieListBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(movie: MovieEntity, onDetailClick: (MovieEntity) -> Unit) {
+        fun bind(
+            movie: MovieEntity,
+            onDetailClick: (MovieEntity) -> Unit,
+            onLinkClick: (MovieEntity) -> Unit
+        ) {
             binding.tvTitle.text = movie.title
             binding.tvYear.text = movie.releaseDate
             binding.tvGenre.text = movie.overview
@@ -33,6 +38,7 @@ class ListMovieAdapter(
             }
 
             binding.btnDetail.setOnClickListener { onDetailClick(movie) }
+            binding.btnLink.setOnClickListener { onLinkClick(movie) }
         }
     }
 
@@ -44,7 +50,7 @@ class ListMovieAdapter(
     }
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(getItem(position), onDetailClick)
+        holder.bind(getItem(position), onDetailClick, onLinkClick)
     }
 
     companion object DiffCallback : DiffUtil.ItemCallback<MovieEntity>() {
